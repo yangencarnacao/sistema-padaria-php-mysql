@@ -99,7 +99,7 @@ $produtos = getProdutos($conn);
 
 
     <!-- Listagem de produtos -->
-    <h2>Produtos Cadastrados:</h2>
+    <h2>Produtos Cadastrados:</h2>    
     <ul>
         <?php foreach ($produtos as $produto) : ?>
             <li class="product-item">

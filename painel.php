@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -115,17 +116,15 @@ $produtos = getProdutos($conn);
 
         <?php endforeach; ?>
     </ul>
-
-
    
 
-    
 </body>
- <?php include 'footer.php'; ?>
     <script src="app.js"></script>
-</body>
+
 </html>
 
 <?php
 mysqli_close($conn);
 ?>
+
+

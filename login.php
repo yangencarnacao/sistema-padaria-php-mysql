@@ -2,6 +2,7 @@
 include('conexao.php');
 include('header.php');
 
+
 // FUNÇÃO REAL STATE STRING PARA PREVENIR SQL Injection
 
 if(isset($_POST['email']) || isset($_POST['senha'])) {
@@ -36,6 +37,8 @@ if(isset($_POST['email']) || isset($_POST['senha'])) {
         } else {
             echo "Falha ao logar! E-mail ou senha incorretos";
         }
+
+
 
     }
 

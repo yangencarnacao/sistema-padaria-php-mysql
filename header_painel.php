@@ -5,6 +5,7 @@
     <nav>
         <ul>          
             <li><a href="logout.php">Sair</a></li>
+            <li><a href="cadastro.php">Cadastrar Funcionário</a></li>
         </ul>
     </nav>
 </header>
