@@ -1,23 +1,38 @@
 <?php
-include 'protect.php';
+// Conexão com o banco de dados (ajuste as informações)
+include 'pagina_restrita.php';
 
+$username = 'root';
+$password = '';
+$dbname = 'login';
+$servername = 'localhost';
 
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-
-
-if(isset($_POST['email'])){
-    include('conexao.php');
+// Verifica se o formulário foi enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Coleta os dados do formulário
     $email = $_POST['email'];
-    $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
-    $query = "INSERT INTO usuarios (email, senha) VALUES ('$email', '$senha')";
-    if ($mysqli->query($query)) {
-        // Usuário cadastrado com sucesso
-        echo '<script>alert("Usuário cadastrado com sucesso!");</script>';
+    $senha = $_POST['senha'];
+
+    // Hash da senha para segurança (recomendado usar um algoritmo mais forte como bcrypt)
+    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+
+    // Insere os dados no banco de dados
+    $sql = "INSERT INTO usuarios (email, senha) VALUES ('$email', '$senha_hash')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Novo usuário criado com sucesso";
     } else {
-        // Erro ao cadastrar o usuário
-        echo '<script>alert("Erro ao cadastrar o usuário. Tente novamente mais tarde.");</script>';
+        echo "Erro ao criar usuário: " . $conn->error;
     }
 }
+
+// Fecha a conexão
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -28,12 +43,9 @@ if(isset($_POST['email'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Cadastro de Funcionário</title>
+    <title>Login</title>
 </head>
 <header>
-    <a href="<?php echo $_SERVER['SCRIPT_NAME']; ?>">
-        <img src="logo.svg" alt="Logo Padaria Mama Lucas" class="logo">
-    </a>
     <nav>
         <ul>          
             <li><a href="logout.php">Sair</a></li>
@@ -41,7 +53,7 @@ if(isset($_POST['email'])){
     </nav>
 </header>
 <body>
-    <h1>Cadastro o Funcionário</h1>
+    <h1>Cadastro do Funcionário</h1>
     <form action="" method="POST">
         <p>
             <label>E-mail</label>
@@ -52,12 +64,14 @@ if(isset($_POST['email'])){
             <input type="password" name="senha">
         </p>
         <p>
-            <button type="submit">Cadastrar</button>
+            <button type="submit">Entrar</button>
         </p>
     </form>
+
+    
 </body>
 <?php
-include 'footer.php';
+include('footer.php');
 ?>
-</html>
 
+</html>

@@ -8,14 +8,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <?php include 'header.php'; ?>
+    <?php 
+    include 'header_painel.php';
+    include 'pagina_restrita.php';
 
-<?php
+
+
+
+
 
 $conn = mysqli_connect('localhost', 'root', '', 'padaria');
 if (!$conn) {
     die('Erro na conexão com o banco de dados: ' . mysqli_connect_error());
 }
+
 
 // Função para buscar todos os produtos
 function getProdutos($conn) {

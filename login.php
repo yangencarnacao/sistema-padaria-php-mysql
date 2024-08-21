@@ -1,51 +1,50 @@
 <?php
-include('conexao.php');
+// Conexão com o banco de dados (ajuste as informações)
 include('header.php');
 
+$username = 'root';
+$password = '';
+$dbname = 'login';
+$servername = 'localhost';
 
-// FUNÇÃO REAL STATE STRING PARA PREVENIR SQL Injection
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-if(isset($_POST['email']) || isset($_POST['senha'])) {
+// Verifica se o formulário foi enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Coleta os dados do formulário
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
 
-    if(strlen($_POST['email']) == 0) {
-        echo "Preencha seu e-mail";
-    } else if(strlen($_POST['senha']) == 0) {
-        echo "Preencha sua senha";
-    } else {
+    // Consulta o usuário no banco de dados
+    $sql = "SELECT * FROM usuarios WHERE email = '$email'";
+    $result = $conn->query($sql);
 
-        $email = $mysqli->real_escape_string($_POST['email']);
-        $senha = $mysqli->real_escape_string($_POST['senha']);
-
-        $sql_code = "SELECT * FROM usuarios WHERE email = '$email' AND senha = '$senha'";
-        $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
-
-        $quantidade = $sql_query->num_rows;
-
-        if($quantidade == 1) {
-            
-            $usuario = $sql_query->fetch_assoc();
-
-            if(!isset($_SESSION)) {
-                session_start();
-            }
-
-            $_SESSION['id'] = $usuario['id'];
-            $_SESSION['nome'] = $usuario['nome'];
-
-            header("Location: painel.php");
-
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        // Verifica se a senha está correta
+        if (password_verify($senha, $row['senha'])) {
+            // Login bem-sucedido (aqui você pode iniciar uma sessão, por exemplo)
+            session_start();
+            $_SESSION['usuario_logado'] = true;
+            header("Location: administrativo.php");
+            exit();
         } else {
-            echo "Falha ao logar! E-mail ou senha incorretos";
+            echo "Senha incorreta";
         }
-
-
-
+    } else {
+        echo "Usuário não encontrado";
     }
-
 }
 
 
+
+// Fecha a conexão
+$conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
