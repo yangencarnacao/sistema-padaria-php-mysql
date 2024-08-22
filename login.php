@@ -12,33 +12,33 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Verifica se o formulário foi enviado
+// Verifica se o form foi enviado
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Coleta os dados do formulário
     $email = $_POST['email'];
     $senha = $_POST['senha'];
 
-    // Consulta o usuário no banco de dados
-    $sql = "SELECT * FROM usuarios WHERE email = '$email'";
-    $result = $conn->query($sql);
+    // Prepared statement para evitar SQL injection
+    $stmt = $conn->prepare("SELECT * FROM usuarios WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        // Verifica se a senha está correta
         if (password_verify($senha, $row['senha'])) {
-            // Login bem-sucedido (aqui você pode iniciar uma sessão, por exemplo)
+            // Login bem-sucedido
             session_start();
             $_SESSION['usuario_logado'] = true;
             header("Location: administrativo.php");
             exit();
         } else {
-            echo "Senha incorreta";
+            echo "Email ou senha inválidos";
         }
     } else {
         echo "Usuário não encontrado";
     }
 }
-
 
 
 // Fecha a conexão

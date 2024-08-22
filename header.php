@@ -1,3 +1,10 @@
+<head>
+<style>
+    header {
+     position: initial;
+    }
+  </style>
+</head>
 <header>
     <a href="<?php echo $_SERVER['SCRIPT_NAME']; ?>">
         <img src="logo.svg" alt="Logo Padaria Mama Lucas" class="logo">

@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <?php include 'header.php'; ?>
+    <?php 
+    include 'header.php';
+    ?>
+
   
     <?php
 require_once 'config.php'; 
@@ -88,8 +91,10 @@ $resultDoces = mysqli_query($link, $sqlDoces);
 </table>
         </div>
 
+        <?php 
+    include 'footer.php'
+    ?>
 </body>
-<?php include 'footer.php'; ?>
     <script src="app.js"></script>
 </body>
 </html>

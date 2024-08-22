@@ -12,25 +12,48 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Verifica se o formulário foi enviado
+// // Verifica se o formulário foi enviado
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//     // Coleta os dados do formulário
+//     $email = $_POST['email'];
+//     $senha = $_POST['senha'];
+
+//     // Hash da senha para segurança (recomendado usar um algoritmo mais forte como bcrypt)
+//     $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+
+//     // Insere os dados no banco de dados
+//     $sql = "INSERT INTO usuarios (email, senha) VALUES ('$email', '$senha_hash')";
+
+//     if ($conn->query($sql) === TRUE) {
+//         echo "Novo usuário criado com sucesso";
+//     } else {
+//         echo "Erro ao criar usuário: " . $conn->error;
+//     }
+// }
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Coleta os dados do formulário
     $email = $_POST['email'];
     $senha = $_POST['senha'];
 
-    // Hash da senha para segurança (recomendado usar um algoritmo mais forte como bcrypt)
-    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
-    // Insere os dados no banco de dados
-    $sql = "INSERT INTO usuarios (email, senha) VALUES ('$email', '$senha_hash')";
+    // Verificar se o usuário já existe
+    $stmt = $conn->prepare("SELECT * FROM usuarios WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if ($conn->query($sql) === TRUE) {
-        echo "Novo usuário criado com sucesso";
+    if ($result->num_rows > 0) {
+        echo "<script>alert('Funcionário já existe!');</script>";
     } else {
-        echo "Erro ao criar usuário: " . $conn->error;
+        // Inserir novo usuário
+        $stmt = $conn->prepare("INSERT INTO usuarios (email, senha) VALUES (?, ?)");
+        $hashed_password = password_hash($senha, PASSWORD_DEFAULT);
+        $stmt->bind_param("ss", $email, $hashed_password);
+        $stmt->execute();
+
+        echo "<script>alert('Funcionário cadastrado com sucesso!');</script>";
     }
 }
-
 // Fecha a conexão
 $conn->close();
 ?>
@@ -68,10 +91,8 @@ $conn->close();
         </p>
     </form>
 
-    
+  
 </body>
-<?php
-include('footer.php');
-?>
+
 
 </html>

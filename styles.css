@@ -112,6 +112,7 @@ background-color: var(--secondary-color);
 color: #fff;
 padding: 10px;
 text-align: center;
+position: fixed;
 }
 
 ul {

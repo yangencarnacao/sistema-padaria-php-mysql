@@ -8,12 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <?php include 'header.php'; ?>
+    <?php include 'header.php';
+    
+    ?>
 
     <main>
         <section id="contato">
             <h1>Peça pelo nosso WhatsApp</h1>
             <form id="contact-form">
+            <div style="flex: 1;">
+                    <label for="cep">Mensagem:</label>
+                    <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
+                </div>    
                 <div style="display: flex; flex-wrap: wrap;">
                     <div style="flex: 1; margin-right: 20px;">
                         <label for="nome">Nome do Cliente:</label>
@@ -45,19 +51,23 @@
                     </div>
                 </div>
                 <div style="flex: 1;">
+                    <label for="cep">Telefone:</label>
+                    <input type="tel" id="tel" name="tel" placeholder="(xx) xxxxxxxxx" />
+
+                </div>  
+                <div style="flex: 1;">
                     <label for="cep">Complemento/Referência:</label>
                     <textarea id="complemento" name="complemento"></textarea>
-                </div>       
-                <div style="flex: 1;">
-                    <label for="cep">Mensagem:</label>
-                    <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
-                </div>              
+                </div>
                 <button type="submit">Enviar</button>
             </form>
         </section>  
     </main>
 
-    <?php include 'footer.php'; ?>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.0/dist/purify.min.js"></script>
     <script src="app.js"></script>
-</body>
+    </body>
+    <?php
+include('footer.php');
+?>
 </html>

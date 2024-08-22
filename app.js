@@ -39,6 +39,7 @@ document.getElementById("contact-form").addEventListener("submit", function (eve
   const logradouro = sanitizeInput(document.getElementById("logradouro").value);
   const bairro = sanitizeInput(document.getElementById("bairro").value);
   const numero = sanitizeInput(document.getElementById("numero").value);
+  const tel = sanitizeInput(document.getElementById("tel").value);
   const complemento = sanitizeInput(document.getElementById("complemento").value);
   const mensagem = sanitizeInput(document.getElementById("mensagem").value);
 
@@ -54,8 +55,21 @@ document.getElementById("contact-form").addEventListener("submit", function (eve
   }
 
   // Cria a mensagem para o WhatsApp com os dados sanitizados e codificados
-  const mensagemWhatsApp = `Cliente: ${encodeURIComponent(nome)}%0AEndereço: ${encodeURIComponent(logradouro)}, ${encodeURIComponent(bairro)}, ${encodeURIComponent(numero)}, ${encodeURIComponent(complemento)}, ${encodeURIComponent(cep)}%0AComplemento/Ponto de Referência: ${encodeURIComponent(complemento)}%0APedido: ${encodeURIComponent(mensagem)}`;
-
+  // const mensagemWhatsApp = `Cliente: ${encodeURIComponent(nome)}%0AEndereço: ${encodeURIComponent(logradouro)}, ${encodeURIComponent(bairro)}, ${encodeURIComponent(numero)}, ${encodeURIComponent(tel)} ${encodeURIComponent(complemento)}, ${encodeURIComponent(cep)}%0AComplemento/Ponto de Referência: ${encodeURIComponent(complemento)}%0APedido: ${encodeURIComponent(mensagem)}`;
+  const mensagemWhatsApp = `
+  Cliente: ${encodeURIComponent(nome)},
+  Endereço: 
+    ${encodeURIComponent(logradouro)}, 
+    Nº:
+    ${encodeURIComponent(numero)},
+    Bairro:
+    ${encodeURIComponent(bairro)},
+    Telefone:
+    ${encodeURIComponent(tel)},
+    CEP: ${encodeURIComponent(cep)}
+  ${complemento ? `Complemento: ${encodeURIComponent(complemento)}` : ''}
+  Pedido: 
+  ${encodeURIComponent(mensagem)}`;
   // Abre a tela do WhatsApp
   window.open(`https://api.whatsapp.com/send?phone=+5521982533483&text=${mensagemWhatsApp}`, '_blank');
 });
