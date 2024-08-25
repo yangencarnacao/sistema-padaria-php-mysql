@@ -27,6 +27,8 @@ justify-content: center;
 width: 100%;
 background-color: var(--primary-color);
 padding: 20px;
+margin-bottom: 20px; /* Ajuste o valor 20px conforme necessário */
+
 }
 
 /* Estilo para cada item */
@@ -89,7 +91,8 @@ align-items: center;
 justify-content: center;
 width: 100%;
 text-align: center;
-margin-bottom: 40px;    
+margin-bottom: 40px;   
+
 }
 
 section h1 {
@@ -103,17 +106,26 @@ margin: 0 auto;
 }
 
 /* Footer */
-footer {
+/* footer {
 display: flex;
 align-items: center;
 justify-content: center;
 width: 100%;
 background-color: var(--secondary-color);
 color: #fff;
-padding: 10px;
 text-align: center;
 position: fixed;
+} */
+
+/* styles.css */
+footer {
+    text-align: center;
+    background-color: var(--secondary-color);
+    width: 100%;
+    color: #fff;
+    display: flex;
 }
+
 
 ul {
 list-style-type: none;
@@ -293,6 +305,11 @@ text-align: center;
 margin-bottom: 20px;
 }
 
+h1 {
+    color: var(--primary-color);
+margin-bottom: 20px;
+}
+
 form input {
 width: 100%;
 padding: 10px;
@@ -315,63 +332,41 @@ background-color: #0056b3;
 }
 
 
-/* Estilo para a tabela */
 .table {
-width: 100%;
-border-collapse: collapse;
-margin-top: 20px;
-font-family: Arial, sans-serif;
-}
-
-/* Estilo para as células do cabeçalho */
-.table th {
-background-color: #f2f2f2;
-font-weight: bold;
-padding: 10px;
-border: 1px solid #ddd;
-}
-
-/* Estilo para as células dos dados */
-.table td {
-padding: 10px;
-border: 1px solid #ddd;
-}
-
-/* Estilo para as linhas alternadas */
-.table tr:nth-child(even) {
-background-color: #f9f9f9;
-}
-
-
-/* Estilos para a tabela */
-table {
-width: 100%;
-border-collapse: collapse;
-margin-bottom: 20px;
-}
-
-th, td {
-padding: 10px;
-text-align: left;
-border-bottom: 1px solid #ddd;
-}
-
-th {
-background-color: #f5f5f5;
-}
-
-body {
-justify-content: center;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0; /* Centered vertically */
+    font-family: Arial, sans-serif;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  body {
+    display: flex; /* Use flexbox for centering */
+    justify-content: center;
     align-items: center;
-min-height: 100vh;
-margin: 0;
-background-color: #f9f9f9;
-}
-
-.category-box {
-border: 1px solid #ddd;
-padding: 10px;
-margin-bottom: 20px;
-background-color: #fff;     
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-}
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f9f9f9;
+  }
+  
+  .category-box {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }

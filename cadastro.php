@@ -9,50 +9,35 @@ $servername = 'localhost';
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+  die("Connection failed: " . $conn->connect_error);
 }
 
-// // Verifica se o formulário foi enviado
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//     // Coleta os dados do formulário
-//     $email = $_POST['email'];
-//     $senha = $_POST['senha'];
-
-//     // Hash da senha para segurança (recomendado usar um algoritmo mais forte como bcrypt)
-//     $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-
-//     // Insere os dados no banco de dados
-//     $sql = "INSERT INTO usuarios (email, senha) VALUES ('$email', '$senha_hash')";
-
-//     if ($conn->query($sql) === TRUE) {
-//         echo "Novo usuário criado com sucesso";
-//     } else {
-//         echo "Erro ao criar usuário: " . $conn->error;
-//     }
-// }
-
+// Verifica se o formulário foi enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST['email'];
-    $senha = $_POST['senha'];
+  $email = $_POST['email'];
+  $senha = $_POST['senha'];
+  $data_nascimento = $_POST['data_nascimento']; // Get the date of birth
+
+   // Validação de senha com mínimo de 8 caracteres
 
 
-    // Verificar se o usuário já existe
-    $stmt = $conn->prepare("SELECT * FROM usuarios WHERE email = ?");
-    $stmt->bind_param("s", $email);
+  // Verificar se o usuário já existe
+  $stmt = $conn->prepare("SELECT * FROM usuarios WHERE email = ?");
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $result = $stmt->get_result();
+
+  if ($result->num_rows > 0) {
+    echo "<script>alert('Funcionário já existe!');</script>";
+  } else {
+    // Inserir novo usuário
+    $stmt = $conn->prepare("INSERT INTO usuarios (email, senha, data_nascimento) VALUES (?, ?, ?)");
+    $hashed_password = password_hash($senha, PASSWORD_DEFAULT);
+    $stmt->bind_param("sss", $email, $hashed_password, $data_nascimento); // Bind date of birth parameter
     $stmt->execute();
-    $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        echo "<script>alert('Funcionário já existe!');</script>";
-    } else {
-        // Inserir novo usuário
-        $stmt = $conn->prepare("INSERT INTO usuarios (email, senha) VALUES (?, ?)");
-        $hashed_password = password_hash($senha, PASSWORD_DEFAULT);
-        $stmt->bind_param("ss", $email, $hashed_password);
-        $stmt->execute();
-
-        echo "<script>alert('Funcionário cadastrado com sucesso!');</script>";
-    }
+    echo "<script>alert('Funcionário cadastrado com sucesso!');</script>";
+  }
 }
 // Fecha a conexão
 $conn->close();
@@ -61,38 +46,50 @@ $conn->close();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Login</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <title>Login</title>
+  <script src="validaSenha.js"></script> 
 </head>
 <header>
-    <nav>
-        <ul>          
-            <li><a href="logout.php">Sair</a></li>
-        </ul>
-    </nav>
+  <nav>
+    <ul>
+      <li><a href="logout.php">Sair</a></li>
+      <li><a href="administrativo.php">Administrativo</a></li>
+    </ul>
+  </nav>
 </header>
 <body>
-    <h1>Cadastro do Funcionário</h1>
-    <form action="" method="POST">
-        <p>
-            <label>E-mail</label>
-            <input type="text" name="email">
-        </p>
-        <p>
-            <label>Senha</label>
-            <input type="password" name="senha">
-        </p>
-        <p>
-            <button type="submit">Entrar</button>
-        </p>
-    </form>
+  <h1>Cadastro do Funcionário</h1>
+  <form action="" method="POST" onsubmit="return validarSenha()"> 
+    <p>
+      <label for="email">E-mail</label>
+      <input type="email" name="email" id="email">
+    </p>
+    <p>
+      <label for="senha">Senha</label>
+      <input type="password" name="senha" id="senha">
+    </p>
+    <p> <label for="data_nascimento">Data de Nascimento</label>
+      <input type="date" name="data_nascimento" id="data_nascimento">
+    </p>
+    <p>
+      <a href="esqueci_senha.php">Esqueci minha senha</a>
+    </p>
+    <p>
+      <button type="submit">Entrar</button>
+    </p>
+  </form>
 
-  
+  <style>
+    a[href="#"] {
+      color: #333;
+      text-decoration: underline; 
+    }
+  </style>
+
 </body>
-
-
 </html>

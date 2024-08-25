@@ -48,33 +48,28 @@ $conn->close();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Login</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="styles.css">  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+  <main>
     <h1>Acesse sua conta</h1>
     <form action="" method="POST">
-        <p>
-            <label>E-mail</label>
-            <input type="text" name="email">
-        </p>
-        <p>
-            <label>Senha</label>
-            <input type="password" name="senha">
-        </p>
-        <p>
-            <button type="submit">Entrar</button>
-        </p>
+      <div class="form-group"> <label for="email">E-mail</label>
+        <input type="text" id="email" name="email">
+      </div>
+      <div class="form-group">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha">
+      </div>
+      <div class="form-group">
+        <button type="submit">Entrar</button>
+      </div>
     </form>
-
-    
-</body>
-<?php
-include('footer.php');
-?>
-
+      </form>
+  </main>
+  <?php include('footer.php'); ?> </body>
 </html>
