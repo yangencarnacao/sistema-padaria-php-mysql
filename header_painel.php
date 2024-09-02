@@ -4,8 +4,9 @@
     </a>
     <nav>
         <ul>          
-            <li><a href="logout.php">Sair</a></li>
             <li><a href="cadastro.php">Cadastrar Funcionário</a></li>
+            <li><a href="logout.php">Sair</a></li>
+            <li><a href="gestao_permissao.php">Gestão Funcionários</a></li>
         </ul>
     </nav>
 </header>
